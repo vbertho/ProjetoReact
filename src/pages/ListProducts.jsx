@@ -100,7 +100,9 @@ function toggleItem(id) {
                                 className="bg-neutral-500 text-white p-1 rounded">
                                 <Plus size={16} />
                             </button>
-                            <span className="w-6 text-center">
+                            <span
+                                onClick={(e) => e.stopPropagation()} 
+                                className="w-6 text-center">
                                 {item.quantity}
                             </span>
                             <button 

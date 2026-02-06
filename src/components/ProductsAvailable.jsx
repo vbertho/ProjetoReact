@@ -19,14 +19,6 @@ function ProductsAvailable({ products, onIncreaseClick, onDecreaseClick }) {
                         {product.name}
                     </span>
 
-                    {/* INCREMENTAR */}
-                    <button
-                        onClick={() => onIncreaseClick(product.id)}
-                        className="bg-neutral-500 text-white p-2 rounded-md"
-                    >
-                        <Plus />
-                    </button>
-
                     {/* DECREMENTAR */}
                     <button
                         onClick={() => onDecreaseClick(product.id)}
@@ -34,6 +26,14 @@ function ProductsAvailable({ products, onIncreaseClick, onDecreaseClick }) {
                         disabled={product.quantity === 0}
                     >
                         <Minus />
+                    </button>
+
+                    {/* INCREMENTAR */}
+                    <button
+                        onClick={() => onIncreaseClick(product.id)}
+                        className="bg-neutral-500 text-white p-2 rounded-md"
+                    >
+                        <Plus />
                     </button>
 
                 </li>

@@ -87,7 +87,7 @@ function ListProducts() {
                 isOutOfStock: false,
             }));
 
-        localStorage.setItem("initialStock", JSON.stringify(selectedItems));    
+        localStorage.setItem("initialStock", JSON.stringify(selectedItems));
         localStorage.setItem("products", JSON.stringify(selectedItems));
         navigate(-1);
     }
@@ -123,10 +123,10 @@ function ListProducts() {
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            onIncreaseClick(item.id)
+                                            onDecreaseClick(item.id)
                                         }}
                                         className="bg-neutral-500 text-white p-1 rounded">
-                                        <Plus size={16} />
+                                        <Minus size={16} />
                                     </button>
                                     <span
                                         onClick={(e) => e.stopPropagation()}
@@ -136,10 +136,10 @@ function ListProducts() {
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            onDecreaseClick(item.id)
+                                            onIncreaseClick(item.id)
                                         }}
                                         className="bg-neutral-500 text-white p-1 rounded">
-                                        <Minus size={16} />
+                                        <Plus size={16} />
                                     </button>
                                 </div>
                             )}

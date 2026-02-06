@@ -6,6 +6,7 @@ function DayActions() {
     const navigate = useNavigate();
     const [showConfirm, setShowConfirm] = useState(false);
     const [actionType, setActionType] = useState(null);
+    const products = JSON.parse(localStorage.getItem("products")) || [];
 
     const confirmMessages = {
         stock: {
@@ -18,15 +19,30 @@ function DayActions() {
             message:
                 "Essa ação finalizará o dia e o histórico de vendas atual será apagado. Deseja continuar?",
         },
+        noProducts: {
+            title: "Gerar Relatório",
+            message:
+                "Não há produtos disponíveis para gerar o relatório.",
+        }
     };
 
     function handleRegisterStock() {
+        // se não houver produtos, navega direto
+        if (products.length === 0) {
+            navigate("/stock")
+            return;
+        }
+        // se houver produtos, mostra o modal de confirmação
         setActionType("stock");
         setShowConfirm(true);
     }
 
     function handleGenerateReport() {
-        setActionType("report")
+        if (products.length === 0) {
+            setActionType("noProducts");
+        } else {
+            setActionType("report")
+        }
         setShowConfirm(true);
     }
 
@@ -91,6 +107,7 @@ function DayActions() {
                     message={confirmMessages[actionType].message}
                     onConfirm={handleConfirm}
                     onCancel={handleCancel}
+                    onlyCancel={actionType === "noProducts"}
                 />
             )}
         </>

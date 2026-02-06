@@ -32,11 +32,13 @@ function App() {
             <h1 className="text-3xl text-neutral-100 font-bold text-center">
                 Cookies do Dia 
             </h1>
+            {products.length > 0 && (
             <ProductsAvailable 
                 products={products}
                 onIncreaseClick={onIncreaseClick}
                 onDecreaseClick={onDecreaseClick} 
             />
+            )}
             <DayActions />
             </div>
         </div>

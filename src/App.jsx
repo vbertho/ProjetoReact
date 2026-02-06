@@ -1,20 +1,26 @@
 import DayActions from "./components/DayActions";
 import ProductsAvailable from "./components/ProductsAvailable";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css"
 
 function App() {
-    const [products, setProducts] = useState(
-        JSON.parse(localStorage.getItem("products")) || []
-    );
+    const [products, setProducts] = useState(() => {
+        const data = localStorage.getItem("products");
+        return data ? JSON.parse(data) : [];
+    });
 
     function onIncreaseClick(productId) {
-        setProducts(products.map(product => 
-            product.id === productId 
-                ? { ...product, quantity: product.quantity + 1, isOutOfStock: false } 
+        setProducts(products.map(product =>
+            product.id === productId
+                ? { ...product, quantity: product.quantity + 1, isOutOfStock: false }
                 : product
         ));
     }
+
+    //salvar sempre que products mudar
+    useEffect(() => {
+        localStorage.setItem("products", JSON.stringify(products));
+    }, [products]);
 
     function onDecreaseClick(productId) {
         setProducts(products.map(product => {
@@ -26,20 +32,20 @@ function App() {
         }));
     }
 
-   return (
+    return (
         <div className="w-screen h-screen bg-neutral-900 flex justify-center p-6">
             <div className="w-[500px] space-y-6">
-            <h1 className="text-3xl text-neutral-100 font-bold text-center">
-                Cookies do Dia 
-            </h1>
-            {products.length > 0 && (
-            <ProductsAvailable 
-                products={products}
-                onIncreaseClick={onIncreaseClick}
-                onDecreaseClick={onDecreaseClick} 
-            />
-            )}
-            <DayActions />
+                <h1 className="text-3xl text-neutral-100 font-bold text-center">
+                    Cookies do Dia
+                </h1>
+                {products.length > 0 && (
+                    <ProductsAvailable
+                        products={products}
+                        onIncreaseClick={onIncreaseClick}
+                        onDecreaseClick={onDecreaseClick}
+                    />
+                )}
+                <DayActions />
             </div>
         </div>
     )

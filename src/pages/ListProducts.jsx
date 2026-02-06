@@ -105,7 +105,7 @@ function ListProducts() {
                         <li
                             key={item.id}
                             className={`flex items-center gap-2 p-2 rounded-md cursor-pointer ${item.checked ? "bg-neutral-200" : "bg-neutral-300 opacity-50"}`}
-                            onClick={() => toggleItem(item.id)}>
+                        >
 
                             <input
                                 type="checkbox"
@@ -114,7 +114,9 @@ function ListProducts() {
                                 onClick={(e) => e.stopPropagation()}
                                 className="w-5 h-5 accent-green-600"
                             />
-                            <span className={item.checked ? "text-black" : "opacity-50"}>
+                            <span 
+                                onClick={() => toggleItem(item.id)}
+                                className={item.checked ? "text-black" : "opacity-50"}>
                                 {item.name}
                             </span>
 

@@ -87,6 +87,7 @@ function ListProducts() {
                 isOutOfStock: false,
             }));
 
+        localStorage.setItem("initialStock", JSON.stringify(selectedItems));    
         localStorage.setItem("products", JSON.stringify(selectedItems));
         navigate(-1);
     }

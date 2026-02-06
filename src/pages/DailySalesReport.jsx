@@ -101,6 +101,7 @@ function DailySalesReport() {
                         }));
                         
                     localStorage.setItem("products", JSON.stringify(remainingProducts));
+                    localStorage.setItem("initialStock", JSON.stringify(remainingProducts));
 
                     navigate(-1);
                 }}

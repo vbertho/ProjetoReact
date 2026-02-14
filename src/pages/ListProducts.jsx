@@ -1,96 +1,41 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
+import api from "../services/api";
 
 function ListProducts() {
     const navigate = useNavigate()
 
-    const catalogo = [
-        { id: 1, name: "Oreo com Nutella", price: 9.5 },
-        { id: 2, name: "Nutella", price: 9 },
-        { id: 3, name: "KitKat", price: 9.5 },
-        { id: 4, name: "Doce de Leite", price: 8.5 },
-        { id: 5, name: "Clássico", price: 6.5 },
-        { id: 6, name: "Chocolate", price: 6.5 },
-    ];
+    const [items, setItems] = useState([]);
 
-    const [items, setItems] = useState(() => {
-        const currentStock = JSON.parse(localStorage.getItem("products")) || [];
-
-        return catalogo.map(item => {
-            const stockItem = currentStock.find(p => p.id === item.id);
-
-            if (stockItem && stockItem.quantity > 0) {
-                return {
-                    ...item,
-                    quantity: stockItem.quantity,
-                    checked: true,
-                };
+    useEffect(() => {
+        async function fetchProducts() {
+            try {
+                const response = await api.get("/products");
+                setItems(response.data);
+            } catch (error) {
+                console.error("Error finding products", error);
             }
+        }
 
-            return {
-                ...item,
-                quantity: 0,
-                checked: false,
-            };
-        });
-    });
+        fetchProducts();
+    }, []);
 
-    function toggleItem(id) {
-        const newItems = items.map(item => {
-            if (item.id === id) {
-                return {
-                    ...item,
-                    checked: !item.checked,
-                    quantity: !item.checked ? 1 : 0
-                };
-            }
-            return item;
-        });
-        setItems(newItems);
+    async function updateQuantity(id, value) {
+        setItems(prev =>
+            prev.map(item =>
+                item.id === id ? { ...item, quantity: value } : item
+            )
+        );
+
+        try {
+            await api.patch(`/products/${id}/updateQuantity?value=${value}`);
+        } catch (error) {
+            console.error("Erro ao atualizar quantidade", error);
+            fetchProducts();
+        }
     }
 
-    function onIncreaseClick(id) {
-        const newItems = items.map(item => {
-            if (item.id === id) {
-                return {
-                    ...item,
-                    quantity: item.quantity + 1,
-                    checked: true,
-                };
-            }
-            return item;
-        });
-        setItems(newItems);
-    }
-
-    function onDecreaseClick(id) {
-        const newItems = items.map(item => {
-            if (item.id === id && item.quantity > 0) {
-                const newQuantity = item.quantity - 1;
-                return {
-                    ...item,
-                    quantity: newQuantity,
-                    checked: newQuantity > 0,
-                };
-            }
-            return item;
-        });
-        setItems(newItems);
-    }
-
-    function handleFillStock() {
-        const selectedItems = items
-            .filter(item => item.quantity > 0)
-            .map(item => ({
-                ...item,
-                isOutOfStock: false,
-            }));
-
-        localStorage.setItem("initialStock", JSON.stringify(selectedItems));
-        localStorage.setItem("products", JSON.stringify(selectedItems));
-        navigate(-1);
-    }
 
     const totalSelected = items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -104,28 +49,36 @@ function ListProducts() {
                     {items.map(item => (
                         <li
                             key={item.id}
-                            className={`flex items-center gap-2 p-2 rounded-md cursor-pointer ${item.checked ? "bg-neutral-200" : "bg-neutral-300 opacity-50"}`}
+                            className={`flex items-center gap-2 p-2 rounded-md cursor-pointer ${item.quantity > 0 ? "bg-neutral-200" : "bg-neutral-300 opacity-50"}`}
                         >
-
                             <input
                                 type="checkbox"
-                                checked={item.checked}
-                                onChange={() => toggleItem(item.id)}
+                                checked={item.quantity > 0}
+                                onChange={() =>
+                                    updateQuantity(
+                                        item.id,
+                                        item.quantity > 0 ? 0 : 1
+                                    )
+                                }
                                 onClick={(e) => e.stopPropagation()}
                                 className="w-5 h-5 accent-green-600"
                             />
-                            <span 
-                                onClick={() => toggleItem(item.id)}
-                                className={item.checked ? "text-black" : "opacity-50"}>
+                            <span
+                                onClick={() =>
+                                    updateQuantity(
+                                        item.id,
+                                        item.quantity > 0 ? 0 : 1
+                                    )}
+                                className={item.quantity > 0 ? "text-black" : "opacity-50"}>
                                 {item.name}
                             </span>
 
-                            {item.checked && (
+                            {item.quantity > 0 && (
                                 <div className="flex items-center gap-4 ml-auto">
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            onDecreaseClick(item.id)
+                                            updateQuantity(item.id, item.quantity - 1);
                                         }}
                                         className="bg-neutral-500 text-white p-1 rounded">
                                         <Minus size={16} />
@@ -138,7 +91,7 @@ function ListProducts() {
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            onIncreaseClick(item.id)
+                                            updateQuantity(item.id, item.quantity + 1);
                                         }}
                                         className="bg-neutral-500 text-white p-1 rounded">
                                         <Plus size={16} />
@@ -153,7 +106,7 @@ function ListProducts() {
                     Total selecionado: {totalSelected} unidades
                 </div>
 
-                <button onClick={handleFillStock} className="
+                <button onClick={() => navigate(-1)} className="
                 w-full               
                 bg-green-600        
                 hover:bg-green-700   

@@ -10,7 +10,7 @@ function DayActions() {
 
     const confirmMessages = {
         stock: {
-            title: "Registrar Estoque",
+            title: "Atualizar Estoque",
             message:
                 "Essa ação permitirá adicionar ou atualizar os produtos disponíveis. Deseja continuar? ",
         },
@@ -80,7 +80,7 @@ function DayActions() {
                 duration-200         
                 ease-in-out
             ">
-                    Registrar Estoque
+                    Atualizar Estoque
                 </button>
                 <button onClick={handleGenerateReport} className="
                 w-full               

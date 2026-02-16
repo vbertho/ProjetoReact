@@ -1,40 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
-import api from "../services/api";
+import { useProducts } from "../hooks/useProducts";
 
 function ListProducts() {
     const navigate = useNavigate()
-
-    const [items, setItems] = useState([]);
-
-    useEffect(() => {
-        async function fetchProducts() {
-            try {
-                const response = await api.get("/products");
-                setItems(response.data);
-            } catch (error) {
-                console.error("Error finding products", error);
-            }
-        }
-
-        fetchProducts();
-    }, []);
-
-    async function updateQuantity(id, value) {
-        setItems(prev =>
-            prev.map(item =>
-                item.id === id ? { ...item, quantity: value } : item
-            )
-        );
-
-        try {
-            await api.patch(`/products/${id}/updateQuantity?value=${value}`);
-        } catch (error) {
-            console.error("Erro ao atualizar quantidade", error);
-            fetchProducts();
-        }
-    }
+    const { items, updateQuantity } = useProducts();
 
 
     const totalSelected = items.reduce((sum, item) => sum + item.quantity, 0);

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { Plus, Minus } from "lucide-react";
 import { useProducts } from "../hooks/useProducts";
+import BottomSheet from "../components/BottomSheet"
 
 function ListProducts() {
     const navigate = useNavigate()
@@ -19,55 +19,19 @@ function ListProducts() {
                     {items.map(item => (
                         <li
                             key={item.id}
-                            className={`flex items-center gap-2 p-2 rounded-md cursor-pointer ${item.quantity > 0 ? "bg-neutral-200" : "bg-neutral-300 opacity-50"}`}
+                            className={`flex items-center gap-2 p-3 rounded-md ${item.quantity > 0 ? "bg-neutral-200" : "bg-neutral-300"
+                                }`}
                         >
-                            <input
-                                type="checkbox"
-                                checked={item.quantity > 0}
-                                onChange={() =>
-                                    updateQuantity(
-                                        item.id,
-                                        item.quantity > 0 ? 0 : 1
-                                    )
-                                }
-                                onClick={(e) => e.stopPropagation()}
-                                className="w-5 h-5 accent-green-600"
-                            />
-                            <span
-                                onClick={() =>
-                                    updateQuantity(
-                                        item.id,
-                                        item.quantity > 0 ? 0 : 1
-                                    )}
-                                className={item.quantity > 0 ? "text-black" : "opacity-50"}>
+                            <span className="text-black">
                                 {item.name}
                             </span>
 
-                            {item.quantity > 0 && (
-                                <div className="flex items-center gap-4 ml-auto">
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            updateQuantity(item.id, item.quantity - 1);
-                                        }}
-                                        className="bg-neutral-500 text-white p-1 rounded">
-                                        <Minus size={16} />
-                                    </button>
-                                    <span
-                                        onClick={(e) => e.stopPropagation()}
-                                        className="w-6 text-center">
-                                        {item.quantity}
-                                    </span>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            updateQuantity(item.id, item.quantity + 1);
-                                        }}
-                                        className="bg-neutral-500 text-white p-1 rounded">
-                                        <Plus size={16} />
-                                    </button>
-                                </div>
-                            )}
+                            <BottomSheet
+                                value={item.quantity}
+                                onChange={(newQuantity) =>
+                                    updateQuantity(item.id, newQuantity)
+                                }
+                            />
                         </li>
                     ))}
                 </ul>

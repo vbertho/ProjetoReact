@@ -25,11 +25,11 @@ function DayActions() {
             message:
                 "Não há produtos disponíveis para gerar o relatório.",
         }
-    }; 
+    };
 
     function handleRegisterStock() {
         // se não houver produtos, navega direto
-        if (items.length === 0) {
+        if (items.every(item => item.quantity === 0)) {
             navigate("/stock")
             return;
         }
@@ -39,7 +39,7 @@ function DayActions() {
     }
 
     function handleGenerateReport() {
-        if (items.length === 0) {
+        if (items.every(item => item.quantity === 0)) {
             setActionType("noProducts");
         } else {
             setActionType("report")

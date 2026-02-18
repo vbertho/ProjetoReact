@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { useProducts } from "../hooks/useProducts";
+
 function DailySalesReport() {
     const navigate = useNavigate()
 
@@ -99,7 +101,7 @@ function DailySalesReport() {
                             quantity: item.remainingQty,
                             checked: true,
                         }));
-                        
+
                     localStorage.setItem("products", JSON.stringify(remainingProducts));
                     localStorage.setItem("initialStock", JSON.stringify(remainingProducts));
 

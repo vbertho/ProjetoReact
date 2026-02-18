@@ -24,7 +24,7 @@ function DayActions() {
             message:
                 "Não há produtos disponíveis para gerar o relatório.",
         }
-    };
+    }; 
 
     function handleRegisterStock() {
         // se não houver produtos, navega direto

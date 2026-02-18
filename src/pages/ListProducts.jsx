@@ -6,7 +6,6 @@ function ListProducts() {
     const navigate = useNavigate()
     const { items, updateQuantity } = useProducts();
 
-
     const totalSelected = items.reduce((sum, item) => sum + item.quantity, 0);
 
     return (

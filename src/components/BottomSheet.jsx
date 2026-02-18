@@ -12,7 +12,7 @@ function BottomSheet({ value, onChange }) {
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="ml-auto px-3 py-1.5 text-sm border border-neutral-400 rounded-md hover:bg-neutral-100 transition"
+                className="ml-auto px-3 py-1.5 text-sm border border-neutral-400 rounded-md hover:bg-neutral-400 transition"
             >
                 {value > 0 ? `${value} un` : "0 un"}
             </button>
@@ -20,7 +20,7 @@ function BottomSheet({ value, onChange }) {
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-end">
                     <div
-                        className="absolute inset-0 bg-black bg-opacity-40"
+                        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
                         onClick={() => setIsOpen(false)}
                     />
 

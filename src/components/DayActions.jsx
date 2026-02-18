@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ConfirmModal from "./ConfirmModal";
+import { useProducts } from "../hooks/useProducts";
 
 function DayActions() {
     const navigate = useNavigate();
     const [showConfirm, setShowConfirm] = useState(false);
     const [actionType, setActionType] = useState(null);
-    const products = JSON.parse(localStorage.getItem("products")) || [];
+    const { items } = useProducts();
 
     const confirmMessages = {
         stock: {
@@ -28,7 +29,7 @@ function DayActions() {
 
     function handleRegisterStock() {
         // se não houver produtos, navega direto
-        if (products.length === 0) {
+        if (items.length === 0) {
             navigate("/stock")
             return;
         }
@@ -38,7 +39,7 @@ function DayActions() {
     }
 
     function handleGenerateReport() {
-        if (products.length === 0) {
+        if (items.length === 0) {
             setActionType("noProducts");
         } else {
             setActionType("report")

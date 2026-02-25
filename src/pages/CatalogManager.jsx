@@ -39,10 +39,9 @@ function ProductManager() {
                 </div>
                 <ul className="space-y-4 p-6 bg-neutral-300 rounded-md shadow bg">
                     {items.map(item => (
-                        <li key={item.id} className="flex items-center justify-between gap-2 p-3 rounded-md bg-neutral-200">
-                            <span className="text-black">
-                                {item.name}
-                            </span>
+                        <li key={item.id} className="flex items-center gap-2 p-3 rounded-md bg-neutral-200">
+                            <span className="text-black font-semibold w-24">R$ {item.price.toFixed(2)}</span>
+                            <span className="text-black font-semibold flex-1">{item.name}</span>
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => {

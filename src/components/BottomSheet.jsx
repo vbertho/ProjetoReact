@@ -44,7 +44,6 @@ function BottomSheet({ value, onChange }) {
                                 </button>
                             ))}
                         </div>
-
                     </div>
                 </div>
             )}

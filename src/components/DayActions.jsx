@@ -100,6 +100,23 @@ function DayActions() {
             ">
                     Gerar Relatório
                 </button>
+                <button onClick={() => navigate("/management")} className="
+                w-full               
+                bg-orange-600        
+                hover:bg-orange-700   
+                text-white         
+                text-xl            
+                font-semibold         
+                py-4                
+                rounded-lg         
+                shadow-md         
+                hover:shadow-lg      
+                transition            
+                duration-200         
+                ease-in-out          
+            ">
+                    Cadastrar Produto
+                </button>
             </div>
 
             {showConfirm && actionType && (

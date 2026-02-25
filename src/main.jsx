@@ -8,19 +8,24 @@ import {
 } from "react-router-dom";
 import DailySalesReport from './pages/DailySalesReport.jsx';
 import ListProducts from './pages/ListProducts.jsx';
+import CatalogManager from './pages/CatalogManager.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
   },
-  { 
+  {
     path: "/stock",
     element: <ListProducts />,
   },
-  { 
+  {
     path: "/report",
     element: <DailySalesReport />,
+  },
+  {
+    path: "/management",
+    element: <CatalogManager />,
   }
 ]);
 

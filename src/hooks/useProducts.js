@@ -60,5 +60,5 @@ export function useProducts() {
         fetchProducts();
     }, []);
 
-    return { items, updateQuantity, deleteProduct, createProduct, updateProduct };
+    return { items, updateQuantity, deleteProduct, createProduct, updateProduct, fetchProducts };
 }

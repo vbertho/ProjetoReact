@@ -11,7 +11,7 @@ function ProductManager() {
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     return (
-        <div className="w-screen h-screen bg-neutral-900 flex justify-center p-6">
+        <div className="w-screen min-h-screen bg-neutral-900 flex justify-center p-6">
             <div className="w-full max-w-md space-y-6">
                 <h1 className="text-3xl text-neutral-100 font-bold text-center mb-10">
                     Gerenciamento do Catálago

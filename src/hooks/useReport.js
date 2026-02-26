@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../services/api";
 
 export function useReport() {
-    const [report, setReport] = useState(null);
+    const [report, setReport] = useState({
+        totalQuantity: 0,
+        unitsByProduct: [],
+        bestSelling: [],
+        totalAmount: 0,
+        availableStock: []
+    });
 
     async function fetchReport(start, end) {
         try {
@@ -25,6 +31,5 @@ export function useReport() {
             console.error("Error fetching report", error);
         }
     }
-
     return { report, fetchReport };
 }

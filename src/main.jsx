@@ -6,7 +6,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import DailySalesReport from './pages/DailySalesReport.jsx';
+import SalesReport from './pages/SalesReport.jsx';
 import ListProducts from './pages/ListProducts.jsx';
 import CatalogManager from './pages/CatalogManager.jsx';
 
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/report",
-    element: <DailySalesReport />,
+    element: <SalesReport />,
   },
   {
     path: "/management",

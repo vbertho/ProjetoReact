@@ -3,9 +3,10 @@ import { useReport } from "../hooks/useReport";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-function SalesReport() {
+function SaleshistoryReport() {
     const navigate = useNavigate()
-    const { report, fetchReport } = useReport();
+    const { report: todayReport, fetchReport: fetchToday } = useReport();
+    const { report: historyReport, fetchReport: fetchHistory } = useReport();
     const [mode, setMode] = useState("day");
     const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -63,8 +64,13 @@ function SalesReport() {
     }
 
     useEffect(() => {
+        const today = new Date().toISOString().split("T")[0];
+        fetchToday(today, today);
+    }, []);
+
+    useEffect(() => {
         const { start, end } = getDateRange();
-        fetchReport(start, end);
+        fetchHistory(start, end);
     }, [mode, currentDate]);
 
     return (
@@ -82,47 +88,30 @@ function SalesReport() {
                     <div className="font-semibold text-neutral-900">
                         Faturamento:
                         <span className="text-blue-600 ml-2">
-                            R$ {Number(report.totalAmount)?.toFixed(2) ?? "0.00"}
+                            R$ {Number(todayReport.totalAmount).toFixed(2) ?? "0.00"}
                         </span>
                     </div>
 
                     <div className="font-semibold text-neutral-900">
                         Total Vendido:
                         <span className="text-blue-600 ml-2">
-                            {report.totalQuantity} Cookies
+                            {todayReport.totalQuantity} {todayReport.totalQuantity === 1 ? "Cookie" : "Cookies"}
                         </span>
                     </div>
 
                     <div className="font-semibold text-neutral-900">
                         Mais vendido:
                         <span className="text-blue-600 ml-2">
-                            {report.bestSelling}
+                            {todayReport?.bestSelling}
                         </span>
                     </div>
-
-                    <div className="font-semibold text-neutral-900">
-                        Os Cookies Vendidos Foram:
-                    </div>
-
-                    <ul className="space-y-2">
-                        {report.unitsByProduct.map((item, index) => (
-                            <li key={index} className="flex items-center gap-2 p-3 bg-neutral-200 rounded-md">
-                                <span className="bg-blue-600 text-white px-3 py-1 rounded-md">
-                                    {item[1]}
-                                </span>
-                                <span>
-                                    {item[0]}
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
 
                     <div className="font-semibold text-neutral-900">
                         Os Cookies Restantes Foram:
                     </div>
 
                     <ul className="space-y-2">
-                        {report.availableStock.map(item => (
+                        {historyReport.availableStock.map(item => (
                             <li key={item.id} className="flex items-center gap-2 p-3 bg-neutral-200 rounded-md">
                                 <span className="bg-blue-600 text-white px-3 py-1 rounded-md">
                                     {item.quantity}
@@ -164,23 +153,40 @@ function SalesReport() {
                     <div className="font-semibold text-neutral-900">
                         Faturamento:
                         <span className="text-blue-600 ml-2">
-                            R$ {Number(report.totalAmount)?.toFixed(2) ?? "0.00"}
+                            R$ {Number(historyReport.totalAmount)?.toFixed(2) ?? "0.00"}
                         </span>
                     </div>
 
                     <div className="font-semibold text-neutral-900">
                         Total Vendido:
                         <span className="text-blue-600 ml-2">
-                            {report.totalQuantity} Cookies
+                            {historyReport.totalQuantity} {historyReport.totalQuantity === 1 ? "Cookie" : "Cookies"}
                         </span>
                     </div>
 
                     <div className="font-semibold text-neutral-900">
                         Mais vendido:
                         <span className="text-blue-600 ml-2">
-                            {report.bestSelling}
+                            {historyReport.bestSelling}
                         </span>
                     </div>
+
+                    <div className="font-semibold text-neutral-900">
+                        Os Cookies Vendidos Foram:
+                    </div>
+
+                    <ul className="space-y-2">
+                        {historyReport.unitsByProduct.map((item, index) => (
+                            <li key={index} className="flex items-center gap-2 p-3 bg-neutral-200 rounded-md">
+                                <span className="bg-blue-600 text-white px-3 py-1 rounded-md">
+                                    {item[1]}
+                                </span>
+                                <span>
+                                    {item[0]}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
 
                 <button onClick={() => navigate(-1)}
@@ -206,4 +212,4 @@ function SalesReport() {
     )
 }
 
-export default SalesReport;
+export default SaleshistoryReport;

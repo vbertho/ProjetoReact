@@ -39,7 +39,7 @@ function ProductsAvailable() {
 
         try {
             await createSale({
-                saleDate: new Date().toISOString().split("T")[0],
+                saleDate: new Date().toLocaleDateString("sv-SE"),
                 products
             });
 

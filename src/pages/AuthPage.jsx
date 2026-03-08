@@ -1,0 +1,104 @@
+import { Mail, Lock } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+
+function AuthPage({ mode }) {
+    const isLogin = mode === "login";
+    const { login, register } = useAuth();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+
+    async function handleSubmit() {
+        setError("");
+        try {
+            if (isLogin) {
+                await login(email, password);
+            } else {
+                await register(email, password);
+            }
+        } catch (err) {
+            setError(isLogin ? "Email ou senha incorretos" : "Erro ao cadastrar, tente novamente");
+        }
+    }
+
+    return (
+        <div className="w-screen h-screen bg-neutral-900 flex justify-center p-6">
+            <div className="w-full max-w-md space-y-6">
+                <h1 className="text-3xl text-neutral-100 font-bold text-center">
+                    {isLogin ? "Login" : "Cadastro"}
+                </h1>
+
+                <div className="flex flex-col gap-4">
+                    <div className="flex items-center border border-gray-300 rounded-md px-4 focus-within:border-white focus-within:border-2">
+                        <Mail className="text-gray-400 mr-2" size={20} />
+                        <input
+                            type="text"
+                            placeholder="Email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            className="bg-transparent w-full py-4 focus:outline-none text-white"
+                        />
+                    </div>
+
+                    <div className="flex items-center border border-gray-300 rounded-md px-4 focus-within:border-white focus-within:border-2">
+                        <Lock className="text-gray-400 mr-2" size={20} />
+                        <input
+                            type="password"
+                            placeholder="Senha"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            className="bg-transparent w-full py-4 focus:outline-none text-white"
+                        />
+                    </div>
+
+                    {error && (
+                        <p className="text-red-400 text-sm text-center">{error}</p>
+                    )}
+                </div>
+
+                <button
+                    onClick={handleSubmit}
+                    className="
+                        w-full
+                        bg-white
+                        hover:bg-gray-200
+                        text-neutral-900
+                        text-xl
+                        font-semibold
+                        py-4
+                        rounded-lg
+                        shadow-md
+                        hover:shadow-lg
+                        transition
+                        duration-200
+                        ease-in-out
+                    ">
+                    {isLogin ? "Entrar" : "Cadastrar"}
+                </button>
+
+                <p className="text-center text-gray-400 text-sm">
+                    {isLogin ? (
+                        <>
+                            Não tem conta?{" "}
+                            <Link to="/register" className="text-white underline">
+                                Cadastrar
+                            </Link>
+                        </>
+                    ) : (
+                        <>
+                            Já tem conta?{" "}
+                            <Link to="/login" className="text-white underline">
+                                Entrar
+                            </Link>
+                        </>
+                    )}
+                </p>
+            </div>
+        </div>
+    )
+}
+
+export default AuthPage;

@@ -53,11 +53,11 @@ function AuthPage({ mode }) {
                             className="bg-transparent w-full py-4 focus:outline-none text-white"
                         />
                     </div>
-
-                    {error && (
-                        <p className="text-red-400 text-sm text-center">{error}</p>
-                    )}
                 </div>
+
+                {error && (
+                    <p className="text-red-400 text-sm text-center">{error}</p>
+                )}
 
                 <button
                     onClick={handleSubmit}

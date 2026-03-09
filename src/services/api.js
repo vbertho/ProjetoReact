@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "https://cookiehub.onrender.com",
+    //baseURL: "https://cookiehub.onrender.com",
+    baseURL: "http://localhost:8080",
 });
 
 // sends the token automatically in every request
@@ -17,7 +18,7 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use(
     response => response,
     error => {
-        if (error.response?.status === 401 || error.response?.status === 403) {
+        if (error.response?.status === 401) {
             localStorage.removeItem("token");
             window.location.href = "/login";
         }

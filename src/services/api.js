@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-    //baseURL: "https://cookiehub.onrender.com",
-    baseURL: "http://localhost:8080",
+    baseURL: "https://cookiehub.onrender.com",
+    //baseURL: "http://localhost:8080",
 });
 
 // sends the token automatically in every request

@@ -24,7 +24,7 @@ function AuthPage({ mode }) {
             if (status === 400) {
                 setError(err.response.data.errors?.[0]?.defaultMessage);
             } else if (status === 409) {
-                setError(err.response?.data?.message);
+                setError(err.response?.data?.message) || setError("Email já cadastrado");
             } else {
                 setError(isLogin ? "Email ou senha incorretos" : "Erro ao cadastrar, tente novamente");
             }

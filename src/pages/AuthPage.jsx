@@ -20,7 +20,14 @@ function AuthPage({ mode }) {
                 await register(email, password);
             }
         } catch (err) {
-            setError(isLogin ? "Email ou senha incorretos" : "Erro ao cadastrar, tente novamente");
+            const status = err.response?.status;
+            if (status === 400) {
+                setError(err.response.data.errors?.[0]?.defaultMessage);
+            } else if (status === 409) {
+                setError(err.response?.data?.message);
+            } else {
+                setError(isLogin ? "Email ou senha incorretos" : "Erro ao cadastrar, tente novamente");
+            }
         }
     }
 

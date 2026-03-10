@@ -21,13 +21,14 @@ function AuthPage({ mode }) {
             }
         } catch (err) {
             const status = err.response?.status;
-            if (status === 400) {
-                setError(err.response.data.errors?.[0]?.defaultMessage);
-            } else if (status === 409) {
-                setError(err.response?.data?.message) || setError("Email já cadastrado");
-            } else {
-                setError(isLogin ? "Email ou senha incorretos" : "Erro ao cadastrar, tente novamente");
-            }
+            const field = err.response?.data?.field;
+            console.log("field:", field);
+
+            if (status === 400 && field === "password") setError("Senha muito curta");
+            else if (status === 400 && field === "email") setError("Email inválido");
+            else if (status === 400) setError("Dados inválidos")
+            else if (status === 409) setError("Este email já está cadastrado");
+            else setError(isLogin ? "Email ou senha incorretos" : "Erro ao cadastrar, tente novamente");
         }
     }
 
@@ -60,6 +61,9 @@ function AuthPage({ mode }) {
                             className="bg-transparent w-full py-4 focus:outline-none text-white"
                         />
                     </div>
+                    {!isLogin && (
+                        <p className="text-gray-500 text-xs">A senha deve ter no mínimo 8 caracteres</p>
+                    )}
                 </div>
 
                 {error && (
@@ -68,10 +72,13 @@ function AuthPage({ mode }) {
 
                 <button
                     onClick={handleSubmit}
+                    disabled={!email || !password}
                     className="
                         w-full
                         bg-white
                         hover:bg-gray-200
+                        disabled:cursor-not-allowed
+                        disabled:bg-gray-500
                         text-neutral-900
                         text-xl
                         font-semibold

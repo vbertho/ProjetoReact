@@ -34,7 +34,6 @@ function AuthPage({ mode }) {
         } catch (err) {
             const status = err.response?.status;
             const field = err.response?.data?.field;
-            console.log("field:", field);
 
             if (status === 400 && field === "password") setError("Senha muito curta");
             else if (status === 400 && field === "email") setError("Email inválido");

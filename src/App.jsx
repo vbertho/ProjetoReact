@@ -1,11 +1,14 @@
 import DayActions from "./components/DayActions";
 import ProductsAvailable from "./components/ProductsAvailable";
+import ConfirmModal from "./components/ConfirmModal";
 import { useAuth } from "./hooks/useAuth";
 import { LogOut } from "lucide-react";
 import "./App.css"
+import { useState } from "react";
 
 function App() {
     const { logout } = useAuth();
+    const [showConfirm, setShowConfirm] = useState(false);
 
     return (
         <div className="w-screen h-screen bg-neutral-900 flex justify-center p-6">
@@ -17,7 +20,7 @@ function App() {
                     </h1>
                     <div className="flex-1 flex justify-end">
                         <button
-                            onClick={logout}
+                            onClick={() => setShowConfirm(true)}
                             className="text-gray-500 hover:text-white transition duration-200"
                             title="Sair"
                         >
@@ -28,6 +31,14 @@ function App() {
                 <ProductsAvailable />
                 <DayActions />
             </div>
+            {showConfirm && (
+                <ConfirmModal
+                    title="Até logo!"
+                    message="Tem certeza que deseja sair da sua conta?"
+                    onConfirm={logout}
+                    onCancel={() => setShowConfirm(false)}
+                />
+            )}
         </div>
     )
 }

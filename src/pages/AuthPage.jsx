@@ -8,12 +8,23 @@ function AuthPage({ mode }) {
     const { login, register } = useAuth();
 
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
+    const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
     async function handleSubmit() {
         setError("");
+
+        if (!isLogin && password !== confirmPassword) {
+            setError("As senhas não coincidem");
+            return;
+        }
+
         try {
             if (isLogin) {
                 await login(email, password);
@@ -65,6 +76,23 @@ function AuthPage({ mode }) {
                             {showPassword ? <EyeOff className="text-gray-400" size={20} /> : <Eye className="text-gray-400" size={20} />}
                         </button>
                     </div>
+
+                    {!isLogin && (
+                        <div className="flex items-center border border-gray-300 rounded-md px-4 focus-within:border-white focus-within:border-2">
+                            <Lock className="text-gray-400 mr-2" size={20} />
+                            <input
+                                type={showConfirmPassword ? "text" : "password"}
+                                placeholder="Confirmar senha"
+                                value={confirmPassword}
+                                onChange={e => setConfirmPassword(e.target.value)}
+                                className="bg-transparent w-full py-4 focus:outline-none text-white"
+                            />
+                            <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                                {showConfirmPassword ? <EyeOff className="text-gray-400" size={20} /> : <Eye className="text-gray-400" size={20} />}
+                            </button>
+                        </div>
+                    )}
+
                     {!isLogin && (
                         <p className="text-gray-500 text-xs">A senha deve ter no mínimo 8 caracteres</p>
                     )}
@@ -76,7 +104,7 @@ function AuthPage({ mode }) {
 
                 <button
                     onClick={handleSubmit}
-                    disabled={!email || !password}
+                    disabled={!email || !password || (!isLogin && !confirmPassword)}
                     className="
                         w-full
                         bg-white

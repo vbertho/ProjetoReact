@@ -11,23 +11,18 @@ function DayActions() {
 
     const confirmMessages = {
         stock: {
-            title: "Atualizar Estoque",
+            title: "Editar Estoque",
             message:
-                "Essa ação permitirá adicionar ou atualizar os produtos disponíveis. Deseja continuar? ",
+                "Essa ação permitirá adicionar ou atualizar os produtos disponíveis. Deseja continuar?",
         },
         report: {
-            title: "Gerar Relatório",
+            title: "Visualizar Relatório",
             message:
-                "Essa ação finalizará o dia e o histórico de vendas atual será apagado. Deseja continuar?",
-        },
-        noProducts: {
-            title: "Gerar Relatório",
-            message:
-                "Não há produtos disponíveis para gerar o relatório.",
+                "Essa ação exibirá o resumo das vendas realizadas. Deseja continuar?",
         }
     };
 
-    function handleRegisterStock() {
+    function handleEditStock() {
         // se não houver produtos, navega direto
         if (items.every(item => item.quantity === 0)) {
             navigate("/stock")
@@ -39,11 +34,7 @@ function DayActions() {
     }
 
     function handleGenerateReport() {
-        if (items.every(item => item.quantity === 0)) {
-            setActionType("noProducts");
-        } else {
-            setActionType("report")
-        }
+        setActionType("report");
         setShowConfirm(true);
     }
 
@@ -66,7 +57,7 @@ function DayActions() {
     return (
         <>
             <div className="space-y-4 p-6 bg-neutral-300 rounded-md shadow">
-                <button onClick={handleRegisterStock} className="
+                <button onClick={handleEditStock} className="
                 w-full               
                 bg-green-600        
                 hover:bg-green-700   
@@ -81,7 +72,7 @@ function DayActions() {
                 duration-200         
                 ease-in-out
             ">
-                    Atualizar Estoque
+                    Editar Estoque
                 </button>
                 <button onClick={handleGenerateReport} className="
                 w-full               
@@ -98,7 +89,7 @@ function DayActions() {
                 duration-200         
                 ease-in-out          
             ">
-                    Gerar Relatório
+                    Visualizar Relatório
                 </button>
                 <button onClick={() => navigate("/management")} className="
                 w-full               
@@ -125,7 +116,6 @@ function DayActions() {
                     message={confirmMessages[actionType].message}
                     onConfirm={handleConfirm}
                     onCancel={handleCancel}
-                    onlyCancel={actionType === "noProducts"}
                 />
             )}
         </>

@@ -1,4 +1,4 @@
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, EyeOff, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
@@ -10,6 +10,7 @@ function AuthPage({ mode }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     async function handleSubmit() {
         setError("");
@@ -54,12 +55,15 @@ function AuthPage({ mode }) {
                     <div className="flex items-center border border-gray-300 rounded-md px-4 focus-within:border-white focus-within:border-2">
                         <Lock className="text-gray-400 mr-2" size={20} />
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Senha"
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                             className="bg-transparent w-full py-4 focus:outline-none text-white"
                         />
+                        <button type="button" onClick={() => setShowPassword(!showPassword)}>
+                            {showPassword ? <EyeOff className="text-gray-400" size={20} /> : <Eye className="text-gray-400" size={20} />}
+                        </button>
                     </div>
                     {!isLogin && (
                         <p className="text-gray-500 text-xs">A senha deve ter no mínimo 8 caracteres</p>
@@ -111,7 +115,7 @@ function AuthPage({ mode }) {
                     )}
                 </p>
             </div>
-        </div>
+        </div >
     )
 }
 

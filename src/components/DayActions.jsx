@@ -13,7 +13,7 @@ function DayActions() {
         stock: {
             title: "Editar Estoque",
             message:
-                "Essa ação permitirá adicionar ou atualizar os produtos disponíveis. Deseja continuar?",
+                "Essa ação permitirá adicionar ou editar os produtos disponíveis. Deseja continuar?",
         },
         report: {
             title: "Visualizar Relatório",

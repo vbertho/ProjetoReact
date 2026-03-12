@@ -3,7 +3,7 @@ import { useReport } from "../hooks/useReport";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-function SaleshistoryReport() {
+function SalesReport() {
     const navigate = useNavigate()
     const { report: todayReport, fetchReport: fetchToday } = useReport();
     const { report: historyReport, fetchReport: fetchHistory } = useReport();
@@ -12,7 +12,7 @@ function SaleshistoryReport() {
 
     function getDateRange() {
         if (mode === "day") {
-            const d = currentDate.toISOString().split("T")[0];
+            const d = currentDate.toLocaleDateString("sv-SE");
             return { start: d, end: d };
         }
         if (mode === "week") {
@@ -21,16 +21,16 @@ function SaleshistoryReport() {
             const end = new Date(start);
             end.setDate(start.getDate() + 6);
             return {
-                start: start.toISOString().split("T")[0],
-                end: end.toISOString().split("T")[0],
+                start: start.toLocaleDateString("sv-SE"),
+                end: end.toLocaleDateString("sv-SE"),
             };
         }
         if (mode === "month") {
             const start = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
             const end = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
             return {
-                start: start.toISOString().split("T")[0],
-                end: end.toISOString().split("T")[0],
+                start: start.toLocaleDateString("sv-SE"),
+                end: end.toLocaleDateString("sv-SE"),
             };
         }
     }
@@ -64,7 +64,7 @@ function SaleshistoryReport() {
     }
 
     useEffect(() => {
-        const today = new Date().toISOString().split("T")[0];
+        const today = new Date().toLocaleDateString("sv-SE");
         fetchToday(today, today);
     }, []);
 
@@ -212,4 +212,4 @@ function SaleshistoryReport() {
     )
 }
 
-export default SaleshistoryReport;
+export default SalesReport;
